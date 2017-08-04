@@ -26,7 +26,7 @@ fn generate_random_domain(domain_length: u8) -> String {
 
 /// Prints the usage of the program.
 fn print_usage(program: &str, opts: Options) {
-    let brief = format!("Usage: {} [-t .onion | -c 10 ]", program);
+    let brief = format!("Usage: {} [-t onion | -c 10 ]", program);
     println!("{}", opts.usage(&brief));
 }
 
@@ -36,7 +36,7 @@ fn main() {
 
     let mut opts = Options::new();
     opts.optflag("h", "help", "print this help menu"); // Don't accept values for the one time help display (optflag).
-    opts.optopt("t", "tld", "which toplevel domain name", ".onion"); // Accept values for -t / --tld option (optopt).
+    opts.optopt("t", "tld", "which toplevel domain name", "onion"); // Accept values for -t / --tld option (optopt).
     opts.optopt("c", "count", "how many domains to generate", "10");
 
     let matches = match opts.parse(&args[1..]) {
@@ -74,6 +74,7 @@ fn main() {
         None => "onion".to_string()
     };
 
+    // Generate the desired number of random domains.
     for _ in 0..number_of_domains {
         let domain = generate_random_domain(16u8);
         println!("{}.{}", domain, tld);
