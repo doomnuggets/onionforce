@@ -23,7 +23,6 @@ fn generate_random_domain(domain_length: u8) -> String {
     domain_buffer
 }
 
-
 /// Prints the usage of the program.
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("Usage: {} [-t onion | -c 10 ]", program);
@@ -41,7 +40,7 @@ fn main() {
 
     let matches = match opts.parse(&args[1..]) {
         Ok(m) => m,
-        Err(f) => panic!(f.to_string())
+        Err(f) => panic!(f.to_string()),
     };
 
     // Display the help message and exit.
@@ -58,20 +57,22 @@ fn main() {
 
     // determine the number of domains to generate.
     let number_of_domains = match matches.opt_str("count") {
-        Some(s) => match s.parse::<u64>() {
-            Ok(c) => c,
-            Err(e) => {
-                println!("Unable to parse --count: {}", e);
-                return;
+        Some(s) => {
+            match s.parse::<u64>() {
+                Ok(c) => c,
+                Err(e) => {
+                    println!("Unable to parse --count: {}", e);
+                    return;
+                }
             }
-        },
-        None => 10
+        }
+        None => 10,
     };
 
     // Determine the toplevel domain.
     let tld = match matches.opt_str("tld") {
         Some(s) => s,
-        None => "onion".to_string()
+        None => "onion".to_string(),
     };
 
     // Generate the desired number of random domains.
